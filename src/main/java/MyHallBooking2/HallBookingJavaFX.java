@@ -17,7 +17,7 @@ public class HallBookingJavaFX extends Application {
     Customer tempCustomer;
     Hall tempHall;
     Booking tempBooking;
-    ArrayList<Booking> bookingList = new ArrayList<>();
+    ArrayList<Booking> bookingList = new ArrayList<>(5);
 
     public static void main(String[] args) {
         launch(args);
