@@ -58,6 +58,7 @@ public class HallBookingJavaFX extends Application {
         String radioHallString = selectedRadioButton.getText();
         // TODO will use btn eventlistener later
         Button btnScene1 = new Button("Next");
+        btnScene1.setMaxSize(100, 200);
 
         // create GridPane
         GridPane grid = new GridPane();
@@ -84,6 +85,7 @@ public class HallBookingJavaFX extends Application {
 
         // create Scene 1
         Scene scene1 = new Scene(grid,500,350);
+        // Scene 1 END
 
         //set Scene 1
         window.setScene(scene1);
