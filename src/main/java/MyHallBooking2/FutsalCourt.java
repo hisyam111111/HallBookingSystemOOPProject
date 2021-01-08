@@ -2,7 +2,7 @@ package MyHallBooking2;
 
 public class FutsalCourt extends Hall {
     final static int FUTSAL_COURT_NUMBER = 1;
-    final static int HOURLY_RATE = 15;
+    final static int HOURLY_RATE = 10;
 
     public FutsalCourt() {
         super("Futsal Hall","Futsal");

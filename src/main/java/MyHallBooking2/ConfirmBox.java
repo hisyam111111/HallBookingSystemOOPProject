@@ -35,9 +35,33 @@ public class ConfirmBox
         layout.getChildren().addAll(label,yesBtn,noBtn);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout,250,200);
+        window.setTitle("Close the Program?");
         window.setScene(scene);
         window.showAndWait();
 
         return answer;
+    }
+
+    public static void displayPayment(String title,String payment,String deposit) {
+
+
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);//force user to close it down first
+            window.setTitle(title);
+            window.setMinWidth(250);
+            Label label = new Label("Total Payment : "+ payment);
+            Label label2 = new Label("Total Deposit : "+ deposit);
+            Button btnOK = new Button("OK");
+            btnOK.setOnAction(e -> window.close());
+
+
+            VBox layout = new VBox(30);
+            layout.getChildren().addAll(label, label2,btnOK);
+            layout.setAlignment(Pos.CENTER);
+            Scene scene = new Scene(layout, 250, 200);
+            window.setScene(scene);
+            window.showAndWait();
+
+
     }
 }

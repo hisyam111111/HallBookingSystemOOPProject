@@ -49,7 +49,7 @@ public class HallBookingJavaFX extends Application {
         phoneInput.setPromptText("Enter Your Contact Info");
 
 
-        // TODO will use btn eventlistener later
+
         Button btnScene1 = new Button("Next");
         btnScene1.setMaxSize(100, 200);
         btnScene1.setOnAction(e -> createCustomerObject(nameInput,emailInput,phoneInput));
@@ -141,7 +141,7 @@ public class HallBookingJavaFX extends Application {
         //TODO add more parameter
         addButton.setOnAction(e -> createBookingObject(radioGroup,dateInput,startHourInput,endHourInput));
         resetButton.setOnAction(e -> resetAllData());
-        confirmButton.setOnAction(e -> resetAllData());//TODO change later
+        confirmButton.setOnAction(e -> confirmPayment());//TODO change later
         // insert all node into GridPane
         grid2.getChildren().addAll(hallTypeLabel,dateBookingLabel,startHourLabel,endHourLabel
         ,hallHbox,dateInput,startHourInput,endHourInput,buttonHBox);
@@ -234,6 +234,23 @@ public class HallBookingJavaFX extends Application {
         }
         System.out.println("Amount :" + amount);//testing
         return amount;
+    }
+
+    public double getDepositAmount() {
+        double amount = 0;
+        for(Booking i: bookingList) {
+            amount += i.getHallDeposit();
+        }
+        System.out.println("Amount deposit:" + amount);//testing
+        return amount;
+    }
+
+    private void confirmPayment() {
+        String payment = Double.toString(getPaymentAmount());
+        String deposit = Double.toString(getDepositAmount());
+        ConfirmBox.displayPayment("Payment Info",payment,deposit);
+        window.close();
+
     }
 
     private void  closeProgram(){
