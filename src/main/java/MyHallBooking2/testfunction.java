@@ -16,4 +16,28 @@ public class testfunction {
         System.out.println("\nThe difference between two LocalTimes in hours is: " + lt1.until(lt2, ChronoUnit.HOURS));
         System.out.println("\nThe difference between two LocalTimes in min is: " + (lt1.until(lt2, ChronoUnit.MINUTES)%60));// get minute diff
     }
+
+    public void testTextArea() {
+        /*ArrayList<LocalTime>List = new ArrayList<LocalTime>();
+        Button btn = new Button ("Make note of current time");
+        TextArea text = new TextArea ("");
+        // Declare a field of type String for display and name the variable display.
+        String display = "";// Set "" "as the initial value (If this is not done, null will be displayed)
+        @Override
+        public void start (Stage primaryStage) {
+            btn.setOnAction (event->{
+                List.add (LocalTime.now ());
+                for (LocalTime i: List) {
+                    // "display is the original display with a line break and String.format" i ". "
+                    display = display + "\ r \ n" + String.format ("% 02d:% 02d:% 02d",
+                            i.getHour (),
+                            i.getMinute (),
+                            i.getSecond ());
+                }
+                // Call the setText method after exiting the for statement loop
+                text.setText (display);
+                // After that, erase the contents of the display
+                display = "";
+            });*/
+    }
 }
