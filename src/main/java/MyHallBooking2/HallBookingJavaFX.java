@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class HallBookingJavaFX extends Application {
@@ -102,12 +103,12 @@ public class HallBookingJavaFX extends Application {
         // Start Hour
         Label startHourLabel = new Label("Start Time:");
         TextField startHourInput = new TextField();
-        startHourInput.setPromptText("Enter Start Time");
+        startHourInput.setPromptText("Enter Start Time (eg: 20:00)");
 
         // End Hour
         Label endHourLabel = new Label("End Time:");
         TextField endHourInput = new TextField();
-        endHourInput.setPromptText("Enter End Time:");
+        endHourInput.setPromptText("Enter End Time: (eg: 20:00)");
 
         // Button
         Button resetButton = new Button("Reset");
@@ -136,7 +137,11 @@ public class HallBookingJavaFX extends Application {
         HBox buttonHBox = new HBox(20);
         buttonHBox.getChildren().addAll(resetButton,addButton,confirmButton);
         GridPane.setConstraints(buttonHBox,0,7);
-
+        // Button event
+        //TODO add more parameter
+        addButton.setOnAction(e -> createBookingObject(radioGroup,dateInput,startHourInput,endHourInput));
+        resetButton.setOnAction(e -> resetAllData());
+        confirmButton.setOnAction(e -> resetAllData());//TODO change later
         // insert all node into GridPane
         grid2.getChildren().addAll(hallTypeLabel,dateBookingLabel,startHourLabel,endHourLabel
         ,hallHbox,dateInput,startHourInput,endHourInput,buttonHBox);
@@ -164,10 +169,49 @@ public class HallBookingJavaFX extends Application {
         //System.out.println(tempCustomer);// for testing purpose only.
     }
 
-    private void createBookingObject(ToggleGroup radioGroup,DatePicker datePicker) {
+    private void createBookingObject(ToggleGroup radioGroup,DatePicker datePicker,TextField startTime,TextField endTime) {
         RadioButton selectedRadioButton = (RadioButton) radioGroup.getSelectedToggle();
         String radioHallString = selectedRadioButton.getText();
-        LocalDate value = datePicker.getValue();
+        //System.out.println(radioHallString);//testing
+        LocalDate date = datePicker.getValue();
+        //System.out.println(date);//testing
+        LocalTime timeStart = LocalTime.parse(startTime.getText());
+        //System.out.println(timeStart);//testing
+        LocalTime timeEnd = LocalTime.parse(endTime.getText());
+        //System.out.println(timeEnd);//testing
+
+        // create Booking Object
+        tempBooking = new Booking(radioHallString);
+        tempBooking.setDateBooking(date);
+        tempBooking.setStartHour(timeStart);
+        tempBooking.setEndHour(timeEnd);
+        tempBooking.setCustomer(tempCustomer);
+        bookingList.add(tempBooking);
+        //System.out.println(bookingList.size());
+        tempBooking = null;
+        printArrayList();//testing
+    }
+
+    public void resetAllData() {
+        bookingList.clear();
+        tempCustomer = null;
+        tempBooking = null;
+        window.setScene(scene1);
+    }
+    //testing arraylist content.
+    public void printArrayList() {
+        int count = 0;
+        for(Booking i: bookingList) {
+            System.out.println("Position:" + count++);
+            System.out.println("Size ArrayList : "+bookingList.size());
+            System.out.println("Name: "+ i.getCustomer().getName());
+            System.out.println("Email: "+i.getCustomer().getEmail());
+            System.out.println("Phone Number: "+i.getCustomer().getPhoneNumber());
+            System.out.println("Hall Type: "+i.getHall().getHallType());
+            System.out.println("Start Hour: "+i.getStartHour());
+            System.out.println("End Hour: "+i.getEndHour());
+            System.out.println("Date : "+i.getDateBooking());
+        }
     }
 
     // Down here method to manipulate array list or we could use another class

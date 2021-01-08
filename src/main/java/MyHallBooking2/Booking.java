@@ -1,5 +1,6 @@
 package MyHallBooking2;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.GregorianCalendar;
@@ -11,37 +12,32 @@ public class Booking {
     private LocalTime endHour;
     final LocalTime BOOKING_START_HOUR = LocalTime.of(8,0) ;// OPEN SHOP
     final LocalTime BOOKING_END_HOUR = LocalTime.of(23,30); // CLOSE SHOP
-    private GregorianCalendar dateBooking;// date of booking
+    private LocalDate dateBooking;// date of booking
     // default badminton hall
     public Booking() {
         customer = new Customer();
         hall = new BadmintonHall();
-        dateBooking = new GregorianCalendar();
+        dateBooking = LocalDate.now();
 
     }
 
     public Booking(String HallType) {
-        if (HallType.equalsIgnoreCase("futsal"))
+        if (HallType.equalsIgnoreCase("Futsal Hall"))
             hall = new FutsalCourt();
         else
             hall = new BadmintonHall();
 
         customer = new Customer();
-        dateBooking = new GregorianCalendar();
+        dateBooking = LocalDate.now();
     }
 
     public Booking(Hall newHall) {
         hall = newHall;
         customer = new Customer();
-        dateBooking = new GregorianCalendar();
+        dateBooking = LocalDate.now();
     }
 
-    public Booking(Hall newHall, int year, int month, int day) {
-        hall = newHall;
-        customer = new Customer();
-        // january is 0
-        dateBooking = new GregorianCalendar(year,month,day);
-    }
+
 
     //TODO build more constructor if needed
 
@@ -70,7 +66,7 @@ public class Booking {
         this.endHour = EndHour;
     }
 
-    public void setDateBooking(GregorianCalendar dateBooking) {
+    public void setDateBooking(LocalDate dateBooking) {
         this.dateBooking = dateBooking;
     }
 
@@ -90,7 +86,7 @@ public class Booking {
         return hall;
     }
 
-    public GregorianCalendar getDateBooking() {
+    public LocalDate getDateBooking() {
         return dateBooking;
     }
 
