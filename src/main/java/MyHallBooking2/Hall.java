@@ -2,7 +2,7 @@ package MyHallBooking2;
 
 public abstract class Hall {
     private String hallName;
-    final static double MAX_DEPOSIT = 250;
+    final static double MAX_DEPOSIT = 100;
     private String hallType;
 
 
