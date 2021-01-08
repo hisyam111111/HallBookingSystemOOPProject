@@ -153,6 +153,14 @@ public class HallBookingJavaFX extends Application {
         grid2.setAlignment(Pos.CENTER);
         GridPane.setHalignment(hallHbox, HPos.CENTER);
 
+        // Scene 2 END
+
+        // close Windows
+        window.setOnCloseRequest(e -> {
+            e.consume();// tell jvm we will handle close req manually
+            closeProgram();
+        });
+
         //set Scene 1 as default scene
         window.setScene(scene1);
         window.show();
@@ -178,6 +186,11 @@ public class HallBookingJavaFX extends Application {
         LocalTime timeStart = LocalTime.parse(startTime.getText());
         //System.out.println(timeStart);//testing
         LocalTime timeEnd = LocalTime.parse(endTime.getText());
+        if(timeEnd.isBefore(timeStart)) {
+            timeEnd = timeStart.plusHours(1);
+            // if end hour earlier than start set end hour = start + 1hr
+            //TODO add popup window tellin user this.
+        }
         //System.out.println(timeEnd);//testing
 
         // create Booking Object
@@ -211,6 +224,22 @@ public class HallBookingJavaFX extends Application {
             System.out.println("Start Hour: "+i.getStartHour());
             System.out.println("End Hour: "+i.getEndHour());
             System.out.println("Date : "+i.getDateBooking());
+        }
+    }
+
+    public double getPaymentAmount() {
+        double amount = 0;
+        for(Booking i: bookingList) {
+            amount += i.getTotalPayment();
+        }
+        System.out.println("Amount :" + amount);//testing
+        return amount;
+    }
+
+    private void  closeProgram(){
+        boolean answer = ConfirmBox.display("title","Sure to Close?");
+        if(answer) {
+            window.close();
         }
     }
 
