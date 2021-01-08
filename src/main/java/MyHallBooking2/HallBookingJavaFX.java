@@ -18,7 +18,6 @@ public class HallBookingJavaFX extends Application {
     Stage window;
     Scene scene1, scene2;
     Customer tempCustomer;
-    Hall tempHall;
     Booking tempBooking;
     ArrayList<Booking> bookingList = new ArrayList<>(5);
 
