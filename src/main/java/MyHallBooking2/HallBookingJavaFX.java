@@ -87,7 +87,7 @@ public class HallBookingJavaFX extends Application {
         Scene scene1 = new Scene(grid,500,350);
         // Scene 1 END
 
-        //set Scene 1
+        //set Scene 1 as default scene
         window.setScene(scene1);
         window.show();
 

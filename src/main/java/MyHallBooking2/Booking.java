@@ -1,20 +1,23 @@
 package MyHallBooking2;
 
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.GregorianCalendar;
 
 public class Booking {
     private Customer customer;
     private Hall hall;
-    private int startHour;
-    private int endHour;
-    final int BOOKING_START_HOUR = 800;// OPEN SHOP
-    final int BOOKING_END_HOUR = 2300;// CLOSE SHOP
+    private LocalTime startHour;
+    private LocalTime endHour;
+    final LocalTime BOOKING_START_HOUR = LocalTime.of(8,0) ;// OPEN SHOP
+    final LocalTime BOOKING_END_HOUR = LocalTime.of(23,30); // CLOSE SHOP
     private GregorianCalendar dateBooking;// date of booking
     // default badminton hall
     public Booking() {
         customer = new Customer();
         hall = new BadmintonHall();
         dateBooking = new GregorianCalendar();
+
     }
 
     public Booking(String HallType) {
@@ -37,7 +40,7 @@ public class Booking {
         hall = newHall;
         customer = new Customer();
         // january is 0
-        dateBooking = new GregorianCalendar(year,month-1,day);
+        dateBooking = new GregorianCalendar(year,month,day);
     }
 
     //TODO build more constructor if needed
@@ -50,24 +53,32 @@ public class Booking {
     public void setHall(Hall hall) {
         this.hall = hall;
     }
-
-    public void setStartHour(int startHour) {
+    //LocalTime.parse("10:15:30")
+    public void setStartHour(LocalTime startHour) {
         this.startHour = startHour;
     }
+    public void setStartHour(String str) {
+        LocalTime StartHour = LocalTime.parse(str);
+        this.startHour = StartHour;
+    }
 
-    public void setEndHour(int endHour) {
+    public void setEndHour(LocalTime endHour) {
         this.endHour = endHour;
+    }
+    public void setEndHour(String str) {
+        LocalTime EndHour = LocalTime.parse(str);
+        this.endHour = EndHour;
     }
 
     public void setDateBooking(GregorianCalendar dateBooking) {
         this.dateBooking = dateBooking;
     }
 
-    public int getStartHour() {
+    public LocalTime getStartHour() {
         return startHour;
     }
 
-    public int getEndHour() {
+    public LocalTime getEndHour() {
         return endHour;
     }
 
@@ -84,17 +95,12 @@ public class Booking {
     }
 
     public boolean isHourSettingCorrect() {
-        boolean checkHour = (startHour < endHour) && (startHour >= BOOKING_START_HOUR) && (endHour < BOOKING_END_HOUR - 45);
-        // no booking 45 minutes before close time
+        boolean checkHour = (startHour.compareTo(endHour) == -1 ) && (startHour.compareTo(BOOKING_START_HOUR) == 1 ) && (endHour.compareTo(BOOKING_END_HOUR)== -1 );
         return checkHour;
     }
 
     public double getTotalHour() {
-
-        double startHourFraction = (startHour%100)/60.0;
-        double endHourFraction = (endHour%100)/60.0;
-        double hour =((int)(endHour/100) -(int)(startHour/100));
-        return hour + startHourFraction + endHourFraction;
+        return (startHour.until(endHour, ChronoUnit.HOURS) + (((startHour.until(endHour,ChronoUnit.MINUTES))%60.0)/60.0));
     }
      public double getTotalPayment() {
        if(hall instanceof BadmintonHall) {
