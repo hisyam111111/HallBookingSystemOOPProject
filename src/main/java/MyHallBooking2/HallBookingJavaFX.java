@@ -152,10 +152,9 @@ public class HallBookingJavaFX extends Application {
         buttonHBox.getChildren().addAll(resetButton,addButton,confirmButton,displayTableButton);
         GridPane.setConstraints(buttonHBox,0,7);
         // Button event
-        //TODO add more parameter
         addButton.setOnAction(e -> createBookingObject(radioGroup,hallNameInput,dateInput,startHourInput,endHourInput));
         resetButton.setOnAction(e -> resetAllData());
-        confirmButton.setOnAction(e -> confirmPayment());//TODO change later
+        confirmButton.setOnAction(e -> confirmPayment());
         displayTableButton.setOnAction(e -> ConfirmBox.displayTableBooking(getListAllBooking()));
 
         // insert all node into GridPane
@@ -223,6 +222,7 @@ public class HallBookingJavaFX extends Application {
             timeEnd = timeStart.plusHours(1);
             // if end hour earlier than start set end hour = start + 1hr
             //TODO add popup window tellin user this.
+            ConfirmBox.display("Time Conflict!", "new time end :" , timeEnd);
         }
         //System.out.println(timeEnd);//testing
 

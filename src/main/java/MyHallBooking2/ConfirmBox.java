@@ -47,6 +47,27 @@ public class ConfirmBox
         return answer;
     }
 
+    public static void display(String title,String message,LocalTime time)
+    {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);//force user to close it down first
+        window.setTitle(title);
+        window.setMinWidth(250);
+        Label label = new Label(message);
+        Label label2 = new Label(time.toString());
+        Button btnClose = new Button("Close");
+        btnClose.setOnAction(e -> window.close());
+
+
+        VBox layout = new VBox(20);
+        layout.getChildren().addAll(label,label2,btnClose);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(layout,250,200);
+        window.setScene(scene);
+        window.show();
+
+    }
+
     public static void displayPayment(String title,String message1,String variable1,String message2,String variable2) {
 
 
