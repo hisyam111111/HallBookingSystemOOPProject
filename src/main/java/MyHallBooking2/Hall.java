@@ -25,24 +25,20 @@ public abstract class Hall {
     public String getHallName() {
         return hallName;
     }
-
-
     public String getHallType() {
         return hallType;
     }
 
     // setter
 
-
     public void setHallName(String hallName) {
         this.hallName = hallName;
     }
-
-
     public void setHallType(String hallType) {
         this.hallType = hallType;
     }
 
+    // useful abstract methods
     public abstract double getDeposit();
     public abstract String toString();
 }

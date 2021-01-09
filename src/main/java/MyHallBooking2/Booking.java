@@ -3,7 +3,7 @@ package MyHallBooking2;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.GregorianCalendar;
+
 
 public class Booking {
     private Customer customer;
@@ -69,6 +69,24 @@ public class Booking {
     public void setDateBooking(LocalDate dateBooking) {
         this.dateBooking = dateBooking;
     }
+    public void setHallName(String name) {
+        hall.setHallName(name);
+    }
+
+    public void setHallType(String type) {
+        hall.setHallType(type);
+    }
+
+    public void setCustomerName(String name) {
+        customer.setName(name);
+    }
+
+    public void setCustomerEmail(String email) {
+        customer.setEmail(email);
+    }
+    public void setCustomerPhoneNumber(String phoneNum) {
+        customer.setPhoneNumber(phoneNum);
+    }
 
     public LocalTime getStartHour() {
         return startHour;
@@ -84,6 +102,25 @@ public class Booking {
 
     public Hall getHall() {
         return hall;
+    }
+
+    public String getHallName() {
+        return hall.getHallName();
+    }
+
+    public String getHallType() {
+        return hall.getHallType();
+    }
+    public String getCustomerName() {
+        return customer.getName();
+    }
+
+    public String getCustomerEmail() {
+        return customer.getEmail();
+    }
+
+    public String getCustomerPhoneNumber() {
+        return customer.getPhoneNumber();
     }
 
     public LocalDate getDateBooking() {

@@ -1,6 +1,8 @@
 package MyHallBooking2;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -46,12 +49,10 @@ public class HallBookingJavaFX extends Application {
         Label phoneLabel = new Label("Phone Number:");
         TextField phoneInput = new TextField();
         phoneInput.setPromptText("Enter Your Contact Info");
-
-
-
+        //button create Customer Object
         Button btnScene1 = new Button("Next");
         btnScene1.setMaxSize(100, 200);
-        btnScene1.setOnAction(e -> createCustomerObject(nameInput,emailInput,phoneInput));
+
 
         // create GridPane
         GridPane grid = new GridPane();
@@ -60,6 +61,9 @@ public class HallBookingJavaFX extends Application {
         grid.setHgap(10);
         GridPane.setHalignment(btnScene1, HPos.CENTER);
         grid.setAlignment(Pos.CENTER);
+
+        //add event listener
+        btnScene1.setOnAction(e -> createCustomerObject(grid,nameInput,emailInput,phoneInput));
 
         // 0th Column
         GridPane.setConstraints(nameLabel,0,1);
@@ -94,6 +98,14 @@ public class HallBookingJavaFX extends Application {
         HBox.setMargin(radioFutsalHall,new Insets(10));
         hallHbox.getChildren().addAll(radioBadmintonHall,radioFutsalHall);
 
+        // Hall name with ComboBox
+        Label hallNameLabel = new Label("Select Hall Name :");
+        ComboBox<String> hallNameInput = new ComboBox<>();
+        hallNameInput.getItems().addAll(
+                "Kompleks Sukan Pak Meon",
+                "IIUM Sports Centre","Kompleks Sukan Komuniti"
+        );
+        hallNameInput.setPromptText("Select Location");// hall name refers to hall location
 
         // Date Picker
         Label dateBookingLabel = new Label("Select Date :");
@@ -102,7 +114,7 @@ public class HallBookingJavaFX extends Application {
         // Start Hour
         Label startHourLabel = new Label("Start Time:");
         TextField startHourInput = new TextField();
-        startHourInput.setPromptText("Enter Start Time (eg: 20:00)");
+        startHourInput.setPromptText("Enter Start Time (eg: 09:00)");
 
         // End Hour
         Label endHourLabel = new Label("End Time:");
@@ -113,6 +125,7 @@ public class HallBookingJavaFX extends Application {
         Button resetButton = new Button("Reset");
         Button addButton = new Button("Add Booking");
         Button confirmButton = new Button("Confirm");
+        Button displayTableButton = new Button("Display Booking List");
 
         //  GridPane
         GridPane grid2 = new GridPane();
@@ -122,31 +135,35 @@ public class HallBookingJavaFX extends Application {
 
         // 0th Column
         GridPane.setConstraints(hallTypeLabel,0,1);
-        GridPane.setConstraints(dateBookingLabel,0,2);
-        GridPane.setConstraints(startHourLabel,0,3);
-        GridPane.setConstraints(endHourLabel,0,4);
+        GridPane.setConstraints(hallNameLabel,0,2);
+        GridPane.setConstraints(dateBookingLabel,0,3);
+        GridPane.setConstraints(startHourLabel,0,4);
+        GridPane.setConstraints(endHourLabel,0,5);
 
         // 1st Column
         GridPane.setConstraints(hallHbox,1,1);
-        GridPane.setConstraints(dateInput,1,2);
-        GridPane.setConstraints(startHourInput,1,3);
-        GridPane.setConstraints(endHourInput,1,4);
+        GridPane.setConstraints(hallNameInput,1,2);
+        GridPane.setConstraints(dateInput,1,3);
+        GridPane.setConstraints(startHourInput,1,4);
+        GridPane.setConstraints(endHourInput,1,5);
 
         // Button Position
         HBox buttonHBox = new HBox(20);
-        buttonHBox.getChildren().addAll(resetButton,addButton,confirmButton);
+        buttonHBox.getChildren().addAll(resetButton,addButton,confirmButton,displayTableButton);
         GridPane.setConstraints(buttonHBox,0,7);
         // Button event
         //TODO add more parameter
-        addButton.setOnAction(e -> createBookingObject(radioGroup,dateInput,startHourInput,endHourInput));
+        addButton.setOnAction(e -> createBookingObject(radioGroup,hallNameInput,dateInput,startHourInput,endHourInput));
         resetButton.setOnAction(e -> resetAllData());
         confirmButton.setOnAction(e -> confirmPayment());//TODO change later
+        displayTableButton.setOnAction(e -> ConfirmBox.displayTableBooking(getListAllBooking()));
+
         // insert all node into GridPane
-        grid2.getChildren().addAll(hallTypeLabel,dateBookingLabel,startHourLabel,endHourLabel
-        ,hallHbox,dateInput,startHourInput,endHourInput,buttonHBox);
+        grid2.getChildren().addAll(hallTypeLabel,hallNameLabel,dateBookingLabel,startHourLabel,endHourLabel
+        ,hallHbox,hallNameInput,dateInput,startHourInput,endHourInput,buttonHBox);
 
         // init Scene 2
-        scene2 = new Scene(grid2,700,450);
+        scene2 = new Scene(grid2,900,450);
 
         // Gridpane Alignment
         grid2.setAlignment(Pos.CENTER);
@@ -167,19 +184,36 @@ public class HallBookingJavaFX extends Application {
 
     }
 
-    private void createCustomerObject( TextField nameBox,TextField emailBox,TextField phoneBox) {
+    private void createCustomerObject( GridPane gridPane,TextField nameBox,TextField emailBox,TextField phoneBox) {
         String name = nameBox.getText();
         String email = emailBox.getText();
         String phone = phoneBox.getText();
+
+        if(nameBox.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Invalid input", "Please insert your name correctly");
+            return;
+        }
+        if(emailBox.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Invalid input", "Please insert your E-mail correctly");
+            return;
+        }
+
+        if(phoneBox.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Invalid input", "Please insert your Phone Number correctly");
+            return;
+        }
+
+
         tempCustomer = new Customer(name,email,phone);
         window.setScene(scene2);
         //System.out.println(tempCustomer);// for testing purpose only.
     }
 
-    private void createBookingObject(ToggleGroup radioGroup,DatePicker datePicker,TextField startTime,TextField endTime) {
+    private void createBookingObject(ToggleGroup radioGroup,ComboBox<String> combo,DatePicker datePicker,TextField startTime,TextField endTime) {
         RadioButton selectedRadioButton = (RadioButton) radioGroup.getSelectedToggle();
         String radioHallString = selectedRadioButton.getText();
         //System.out.println(radioHallString);//testing
+        String hallName = combo.getValue();
         LocalDate date = datePicker.getValue();
         //System.out.println(date);//testing
         LocalTime timeStart = LocalTime.parse(startTime.getText());
@@ -194,6 +228,7 @@ public class HallBookingJavaFX extends Application {
 
         // create Booking Object
         tempBooking = new Booking(radioHallString);
+        tempBooking.setHallName(hallName);
         tempBooking.setDateBooking(date);
         tempBooking.setStartHour(timeStart);
         tempBooking.setEndHour(timeEnd);
@@ -219,6 +254,7 @@ public class HallBookingJavaFX extends Application {
             System.out.println("Name: "+ i.getCustomer().getName());
             System.out.println("Email: "+i.getCustomer().getEmail());
             System.out.println("Phone Number: "+i.getCustomer().getPhoneNumber());
+            System.out.println("Hall Name: "+ i.getHall().getHallName());
             System.out.println("Hall Type: "+i.getHall().getHallType());
             System.out.println("Start Hour: "+i.getStartHour());
             System.out.println("End Hour: "+i.getEndHour());
@@ -247,7 +283,7 @@ public class HallBookingJavaFX extends Application {
     private void confirmPayment() {
         String payment = Double.toString(getPaymentAmount());
         String deposit = Double.toString(getDepositAmount());
-        ConfirmBox.displayPayment("Payment Info",payment,deposit);
+        ConfirmBox.displayPayment("Payment Info","Total payment",payment,"Total deposit",deposit);
         window.close();
 
     }
@@ -259,6 +295,27 @@ public class HallBookingJavaFX extends Application {
         }
     }
 
-    // Down here method to manipulate array list or we could use another class
+    private void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.initOwner(owner);
+        alert.show();
+    }
+
+    // table View
+    public ObservableList<Booking> getListAllBooking() {
+
+        ObservableList<Booking> list = FXCollections.observableArrayList();
+
+        for (Booking i : bookingList) {
+            list.add(i);
+        }
+        return list;
+
+    }
+
+
 
 }
