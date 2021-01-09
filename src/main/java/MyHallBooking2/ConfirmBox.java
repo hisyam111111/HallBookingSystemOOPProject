@@ -68,7 +68,7 @@ public class ConfirmBox
 
     }
 
-    public static void displayPayment(String title,String message1,String variable1,String message2,String variable2) {
+    public static void display(String title,String message1,String variable1,String message2,String variable2) {
 
 
             Stage window = new Stage();
@@ -91,7 +91,7 @@ public class ConfirmBox
 
     }
 
-    public static void displayPayment(String title,String message1,double variable1,String message2,double variable2) {
+    public static void display(String title,String message1,double variable1,String message2,double variable2) {
 
 
         Stage window = new Stage();

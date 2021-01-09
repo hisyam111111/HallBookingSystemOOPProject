@@ -283,7 +283,7 @@ public class HallBookingJavaFX extends Application {
     private void confirmPayment() {
         String payment = Double.toString(getPaymentAmount());
         String deposit = Double.toString(getDepositAmount());
-        ConfirmBox.displayPayment("Payment Info","Total payment",payment,"Total deposit",deposit);
+        ConfirmBox.display("Payment Info","Total payment",payment,"Total deposit",deposit);
         window.close();
 
     }
