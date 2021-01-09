@@ -95,12 +95,17 @@ public class ConfirmBox
 
     public static void displayTableBooking(ObservableList<Booking> list) {
         Stage window = new Stage();
-        window.setTitle("TableView");
+        window.setTitle("List of Booking");
 
         // Hall name Column
         TableColumn<Booking, Hall> hallNameColumn = new TableColumn<>("Hall Name");// Header title
         hallNameColumn.setMinWidth(200);
         hallNameColumn.setCellValueFactory(new PropertyValueFactory<>("hallName"));
+
+        // Hall name Column
+        TableColumn<Booking, Hall> hallTypeColumn = new TableColumn<>("Hall Type");// Header title
+        hallTypeColumn.setMinWidth(200);
+        hallTypeColumn.setCellValueFactory(new PropertyValueFactory<>("hallType"));
 
         // date Column
         TableColumn<Booking, LocalDate> dateColumn = new TableColumn<>("Date");// Header title
@@ -123,7 +128,7 @@ public class ConfirmBox
         // set table
         TableView<Booking> table = new TableView<>();
         table.setItems(list);
-        table.getColumns().addAll(hallNameColumn,dateColumn,startColumn,endColumn);
+        table.getColumns().addAll(hallNameColumn,hallTypeColumn,dateColumn,startColumn,endColumn);
 
 
 
